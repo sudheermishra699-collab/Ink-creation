@@ -176,7 +176,7 @@ function AuthDialog({ open, mode, defaultRole, onClose, onAuthed }) {
       <div className="bg-slate-900 border border-white/10 text-white rounded-xl max-w-md w-full p-6 relative shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white text-lg">✕</button>
         
-        <div className="mb-4">
+        <div className="mb-4 text-left">
           <h2 className="text-2xl font-bold">{tab === 'signup' ? 'Create your account' : 'Welcome back'}</h2>
           <p className="text-white/50 text-sm mt-1">
             {tab === 'signup' ? 'Join Ink Creation as a Client or Editor' : 'Sign in to continue to Ink Creation'}
@@ -203,7 +203,7 @@ function AuthDialog({ open, mode, defaultRole, onClose, onAuthed }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
           {tab === 'signup' && (
             <div>
               <label className="text-white/80 text-xs font-medium block mb-1">Full Name</label>
@@ -381,5 +381,4 @@ function PlaceholderTab({ label }) {
   )
 }
 
-function BrowseEditors() {
-  const [editors,
+function BrowseEditors()
