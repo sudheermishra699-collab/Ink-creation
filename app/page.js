@@ -1,13 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { toast } from 'sonner'
 import { Film, Shield, Wallet, Users, Star, Zap, Lock, Loader2, LogOut, BarChart3, Search, ShoppingBag, MessageSquare, Network, Briefcase, PlayCircle, Crown, Award, Trophy, User, Video, TrendingUp } from 'lucide-react'
 
 export default function Home() {
@@ -29,7 +22,6 @@ export default function Home() {
     localStorage.removeItem('ink_user')
     setCurrentUser(null)
     setView('landing')
-    toast.success('Logged out successfully')
   }
 
   const handleAuthSuccess = (user) => {
@@ -50,7 +42,7 @@ export default function Home() {
     <>
       <Landing 
         currentUser={currentUser}
-        onAdminClick={() => toast.info('Admin authentication layer active.')}
+        onAdminClick={() => alert('Admin authentication layer active.')}
         onAuthClick={(mode, role = 'customer') => {
           setAuthMode(mode)
           setDefaultRole(role)
@@ -72,29 +64,31 @@ export default function Home() {
 
 function Landing({ onAdminClick, onAuthClick, currentUser, onDashClick, onLogout }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/40 to-slate-950 text-white">
+    <div className="min-h-screen bg-slate-950 text-white font-sans">
       <nav className="flex items-center justify-between px-6 py-5 lg:px-12 border-b border-white/5">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold">IC</div>
           <span className="text-xl font-semibold tracking-tight">Ink Creation</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           {currentUser ? (
             <>
-              <Button onClick={onDashClick} size="sm" className="bg-purple-600 hover:bg-purple-700">
-                <User className="w-4 h-4 mr-2" /> My Dashboard
-              </Button>
-              <Button onClick={onLogout} size="sm" variant="ghost" className="text-white/60"><LogOut className="w-4 h-4" /></Button>
+              <button onClick={onDashClick} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition">
+                <User className="w-4 h-4" /> My Dashboard
+              </button>
+              <button onClick={onLogout} className="text-white/60 hover:text-white transition">
+                <LogOut className="w-4 h-4" />
+              </button>
             </>
           ) : (
             <>
-              <Button onClick={() => onAuthClick('login')} variant="ghost" size="sm" className="text-white/70 hover:text-white">Login</Button>
-              <Button onClick={() => onAuthClick('signup')} size="sm" className="bg-purple-600 hover:bg-purple-700">Sign Up Free</Button>
+              <button onClick={() => onAuthClick('login')} className="text-white/70 hover:text-white text-sm font-medium transition">Login</button>
+              <button onClick={() => onAuthClick('signup')} className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">Sign Up Free</button>
             </>
           )}
-          <Button onClick={onAdminClick} variant="ghost" size="sm" className="text-white/40 hover:text-white">
+          <button onClick={onAdminClick} className="text-white/40 hover:text-white transition">
             <Lock className="w-4 h-4" />
-          </Button>
+          </button>
         </div>
       </nav>
 
@@ -109,13 +103,13 @@ function Landing({ onAdminClick, onAuthClick, currentUser, onDashClick, onLogout
         <p className="text-lg lg:text-xl text-white/60 max-w-2xl mx-auto mb-10">
           Escrow-protected projects. Watermarked previews. 3 free revisions. Instant UPI payouts. Built for India&apos;s creator economy.
         </p>
-        <div className="flex gap-3 justify-center flex-wrap">
-          <Button size="lg" className="bg-purple-600 hover:bg-purple-700" onClick={() => onAuthClick('signup', 'customer')}>
-            <User className="w-4 h-4 mr-2" /> I&apos;m a Client
-          </Button>
-          <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/5" onClick={() => onAuthClick('signup', 'editor')}>
-            <Video className="w-4 h-4 mr-2" /> I&apos;m an Editor
-          </Button>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition text-base" onClick={() => onAuthClick('signup', 'customer')}>
+            <User className="w-5 h-5" /> I&apos;m a Client
+          </button>
+          <button className="border border-white/20 hover:bg-white/5 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition text-base" onClick={() => onAuthClick('signup', 'editor')}>
+            <Video className="w-5 h-5" /> I&apos;m an Editor
+          </button>
         </div>
       </section>
 
@@ -129,13 +123,11 @@ function Landing({ onAdminClick, onAuthClick, currentUser, onDashClick, onLogout
             { icon: Star, title: 'Level System', desc: 'Bronze → Silver → Gold tiers with lower commissions.' },
             { icon: Zap, title: 'Resumable Uploads', desc: 'Chunked uploads survive any network drop.' },
           ].map((f, i) => (
-            <Card key={i} className="bg-white/5 border-white/10 backdrop-blur text-left">
-              <CardHeader>
-                <f.icon className="w-8 h-8 text-purple-400 mb-2" />
-                <CardTitle className="text-white">{f.title}</CardTitle>
-                <CardDescription className="text-white/60">{f.desc}</CardDescription>
-              </CardHeader>
-            </Card>
+            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6 text-left backdrop-blur">
+              <f.icon className="w-8 h-8 text-purple-400 mb-3" />
+              <h3 className="text-xl font-bold text-white mb-2">{f.title}</h3>
+              <p className="text-white/60 text-sm leading-relaxed">{f.desc}</p>
+            </div>
           ))}
         </div>
       </section>
@@ -159,6 +151,8 @@ function AuthDialog({ open, mode, defaultRole, onClose, onAuthed }) {
     setForm({ name: '', email: '', password: '', phone: '' })
   }, [open, mode, defaultRole])
 
+  if (!open) return null
+
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
@@ -178,68 +172,68 @@ function AuthDialog({ open, mode, defaultRole, onClose, onAuthed }) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="bg-slate-900 border-white/10 text-white max-w-md">
-        <DialogHeader>
-          <DialogTitle>{tab === 'signup' ? 'Create your account' : 'Welcome back'}</DialogTitle>
-          <DialogDescription className="text-white/50">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-slate-900 border border-white/10 text-white rounded-xl max-w-md w-full p-6 relative shadow-2xl">
+        <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white text-lg">✕</button>
+        
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold">{tab === 'signup' ? 'Create your account' : 'Welcome back'}</h2>
+          <p className="text-white/50 text-sm mt-1">
             {tab === 'signup' ? 'Join Ink Creation as a Client or Editor' : 'Sign in to continue to Ink Creation'}
-          </DialogDescription>
-        </DialogHeader>
+          </p>
+        </div>
 
-        <Tabs value={tab} onValueChange={setTab}>
-          <TabsList className="bg-white/5 w-full">
-            <TabsTrigger value="login" className="flex-1">Login</TabsTrigger>
-            <TabsTrigger value="signup" className="flex-1">Sign Up</TabsTrigger>
-          </TabsList>
+        <div className="flex bg-white/5 p-1 rounded-lg mb-4">
+          <button onClick={() => setTab('login')} className={`flex-1 py-1.5 text-sm font-medium rounded-md transition ${tab === 'login' ? 'bg-purple-600 text-white shadow' : 'text-white/60 hover:text-white'}`}>Login</button>
+          <button onClick={() => setTab('signup')} className={`flex-1 py-1.5 text-sm font-medium rounded-md transition ${tab === 'signup' ? 'bg-purple-600 text-white shadow' : 'text-white/60 hover:text-white'}`}>Sign Up</button>
+        </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <button type="button" onClick={() => setRole('customer')}
-              className={`p-3 rounded-lg border text-left transition ${role === 'customer' ? 'border-purple-500 bg-purple-500/10' : 'border-white/10 bg-white/5'}`}>
-              <User className="w-5 h-5 mb-1 text-purple-300" />
-              <div className="text-sm font-medium">Client</div>
-              <div className="text-xs text-white/50">Order video edits</div>
-            </button>
-            <button type="button" onClick={() => setRole('editor')}
-              className={`p-3 rounded-lg border text-left transition ${role === 'editor' ? 'border-pink-500 bg-pink-500/10' : 'border-white/10 bg-white/5'}`}>
-              <Video className="w-5 h-5 mb-1 text-pink-300" />
-              <div className="text-sm font-medium">Editor</div>
-              <div className="text-xs text-white/50">Earn from edits</div>
-            </button>
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <button type="button" onClick={() => setRole('customer')}
+            className={`p-3 rounded-lg border text-left transition ${role === 'customer' ? 'border-purple-500 bg-purple-500/10' : 'border-white/10 bg-white/5'}`}>
+            <User className="w-5 h-5 mb-1 text-purple-300" />
+            <div className="text-sm font-medium">Client</div>
+            <div className="text-xs text-white/50">Order video edits</div>
+          </button>
+          <button type="button" onClick={() => setRole('editor')}
+            className={`p-3 rounded-lg border text-left transition ${role === 'editor' ? 'border-pink-500 bg-pink-500/10' : 'border-white/10 bg-white/5'}`}>
+            <Video className="w-5 h-5 mb-1 text-pink-300" />
+            <div className="text-sm font-medium">Editor</div>
+            <div className="text-xs text-white/50">Earn from edits</div>
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {tab === 'signup' && (
+            <div>
+              <label className="text-white/80 text-xs font-medium block mb-1">Full Name</label>
+              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-purple-500" placeholder="Your name" />
+            </div>
+          )}
+          <div>
+            <label className="text-white/80 text-xs font-medium block mb-1">Email</label>
+            <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-purple-500" placeholder="you@example.com" />
           </div>
-
-          <form onSubmit={handleSubmit} className="space-y-3 mt-4">
-            {tab === 'signup' && (
-              <div>
-                <Label className="text-white/80 text-sm">Full Name</Label>
-                <Input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required
-                  className="bg-white/5 border-white/10 text-white mt-1" placeholder="Your name" />
-              </div>
-            )}
+          {tab === 'signup' && (
             <div>
-              <Label className="text-white/80 text-sm">Email</Label>
-              <Input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required
-                className="bg-white/5 border-white/10 text-white mt-1" placeholder="you@example.com" />
+              <label className="text-white/80 text-xs font-medium block mb-1">Phone (optional)</label>
+              <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-purple-500" placeholder="+91 98765 43210" />
             </div>
-            {tab === 'signup' && (
-              <div>
-                <Label className="text-white/80 text-sm">Phone (optional)</Label>
-                <Input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
-                  className="bg-white/5 border-white/10 text-white mt-1" placeholder="+91 98765 43210" />
-              </div>
-            )}
-            <div>
-              <Label className="text-white/80 text-sm">Password</Label>
-              <Input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required
-                className="bg-white/5 border-white/10 text-white mt-1" placeholder="••••••••" />
-            </div>
-            <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700" disabled={loading}>
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (tab === 'signup' ? 'Create Account' : 'Sign In')}
-            </Button>
-          </form>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
+          )}
+          <div>
+            <label className="text-white/80 text-xs font-medium block mb-1">Password</label>
+            <input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-purple-500" placeholder="••••••••" />
+          </div>
+          <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 rounded-lg text-sm flex items-center justify-center disabled:opacity-50 transition" disabled={loading}>
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : (tab === 'signup' ? 'Create Account' : 'Sign In')}
+          </button>
+        </form>
+      </div>
+    </div>
   )
 }
 
@@ -287,34 +281,30 @@ function EditorDashboard({ user, onLogout, onHome }) {
       {active === 'workspace' && (
         <>
           {!user.subscriptionActive && (
-            <Card className="bg-amber-500/10 border-amber-500/30 mb-6 text-left">
-              <CardContent className="p-4 flex items-center gap-3">
-                <Lock className="w-6 h-6 text-amber-300" />
-                <div className="flex-1">
-                  <div className="font-semibold text-amber-200">Subscription Required</div>
-                  <div className="text-sm text-amber-200/70">Activate a Weekly/Monthly/Yearly plan to start accepting client briefs.</div>
-                </div>
-                <Button className="bg-amber-500 hover:bg-amber-600 text-black" onClick={() => setActive('subscription')}>Activate</Button>
-              </CardContent>
-            </Card>
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 flex items-center gap-4 mb-6 text-left">
+              <Lock className="w-6 h-6 text-amber-300 flex-shrink-0" />
+              <div className="flex-1">
+                <div className="font-semibold text-amber-200">Subscription Required</div>
+                <div className="text-sm text-amber-200/70">Activate a Weekly/Monthly/Yearly plan to start accepting client briefs.</div>
+              </div>
+              <button className="bg-amber-500 hover:bg-amber-600 text-black px-4 py-2 rounded-lg text-sm font-medium transition" onClick={() => setActive('subscription')}>Activate</button>
+            </div>
           )}
           <div className="mb-6 text-left">
-            <Card className="bg-gradient-to-r from-slate-900 to-slate-800 border-white/10">
-              <CardContent className="p-6 flex items-center gap-4">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${lvl.color} flex items-center justify-center`}>
-                  <lvl.icon className="w-8 h-8 text-white" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-xs text-white/50">Current Level</div>
-                  <div className="text-2xl font-bold">{user.level || 'Bronze'}</div>
-                  <div className="text-sm text-white/60 mt-1">Platform Commission: {lvl.commission}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-white/50">Completed Orders</div>
-                  <div className="text-2xl font-bold">{user.completedOrders || 0}</div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="bg-gradient-to-r from-slate-900 to-slate-800 border border-white/10 rounded-xl p-6 flex items-center gap-4">
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${lvl.color} flex items-center justify-center flex-shrink-0`}>
+                <lvl.icon className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex-1">
+                <div className="text-xs text-white/50">Current Level</div>
+                <div className="text-2xl font-bold">{user.level || 'Bronze'}</div>
+                <div className="text-sm text-white/60 mt-1">Platform Commission: {lvl.commission}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-white/50">Completed Orders</div>
+                <div className="text-2xl font-bold">{user.completedOrders || 0}</div>
+              </div>
+            </div>
           </div>
           <StatGrid stats={[
             { label: 'Active Briefs', value: 0, color: 'from-purple-500 to-pink-500' },
@@ -331,8 +321,8 @@ function EditorDashboard({ user, onLogout, onHome }) {
 
 function RoleLayout({ brandColor, role, user, tabs, active, setActive, onLogout, onHome, children }) {
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
-      <aside className="w-64 bg-slate-900/60 border-r border-white/5 p-4 flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-950 text-white flex font-sans">
+      <aside className="w-64 bg-slate-900/60 border-r border-white/5 p-4 flex flex-col justify-between hidden md:flex flex-shrink-0">
         <div>
           <div className="flex items-center gap-2 px-2 py-3 mb-4 text-left">
             <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${brandColor === 'pink' ? 'from-pink-500 to-orange-500' : 'from-purple-500 to-pink-500'} flex items-center justify-center font-bold text-sm`}>IC</div>
@@ -352,11 +342,11 @@ function RoleLayout({ brandColor, role, user, tabs, active, setActive, onLogout,
         </div>
         <div className="space-y-1 pt-4 border-t border-white/5 text-left">
           <div className="px-3 py-2 text-xs text-white/40 truncate">{user.email}</div>
-          <button onClick={onHome} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/60 hover:bg-white/5 hover:text-white">← Home</button>
-          <button onClick={onLogout} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-300 hover:bg-red-500/10"><LogOut className="w-4 h-4" /> Logout</button>
+          <button onClick={onHome} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/60 hover:bg-white/5 hover:text-white transition">← Home</button>
+          <button onClick={onLogout} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-300 hover:bg-red-500/10 transition"><LogOut className="w-4 h-4" /> Logout</button>
         </div>
       </aside>
-      <main className="flex-1 p-8 overflow-y-auto text-left">{children}</main>
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto text-left">{children}</main>
     </div>
   )
 }
@@ -365,15 +355,13 @@ function StatGrid({ stats, title }) {
   return (
     <div>
       {title && <h1 className="text-3xl font-bold mb-6 text-left">{title}</h1>}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
         {stats.map((s, i) => (
-          <Card key={i} className="bg-white/5 border-white/10">
-            <CardContent className="p-6">
-              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} mb-3`} />
-              <div className="text-3xl font-bold text-white">{s.value}</div>
-              <div className="text-sm text-white/50 mt-1">{s.label}</div>
-            </CardContent>
-          </Card>
+          <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${s.color} mb-4`} />
+            <div className="text-3xl font-bold text-white">{s.value}</div>
+            <div className="text-sm text-white/50 mt-1">{s.label}</div>
+          </div>
         ))}
       </div>
     </div>
@@ -382,58 +370,16 @@ function StatGrid({ stats, title }) {
 
 function PlaceholderTab({ label }) {
   return (
-    <Card className="bg-white/5 border-white/10 text-left">
-      <CardHeader>
-        <CardTitle className="text-white">{label}</CardTitle>
-        <CardDescription className="text-white/50">This module activates in the next development phase.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="text-center py-16 text-white/40">
-          <TrendingUp className="w-10 h-10 mx-auto mb-3 opacity-30" />
-          <p>Coming soon — Phase 2 build in progress.</p>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-left">
+      <h3 className="text-xl font-bold text-white mb-1">{label}</h3>
+      <p className="text-white/50 text-sm mb-6">This module activates in the next development phase.</p>
+      <div className="text-center py-16 text-white/40 border border-dashed border-white/10 rounded-lg">
+        <TrendingUp className="w-10 h-10 mx-auto mb-3 opacity-30" />
+        <p className="text-sm">Coming soon — Phase 2 build in progress.</p>
+      </div>
+    </div>
   )
 }
 
 function BrowseEditors() {
-  const [editors, setEditors] = useState([])
-  const [loading, setLoading] = useState(true)
-  
-  useEffect(() => {
-    setTimeout(() => {
-      setEditors([
-        { id: 1, name: 'Amit Kumar', level: 'Gold', rating: 4.9 },
-        { id: 2, name: 'Rahul Sharma', level: 'Silver', rating: 4.6 }
-      ])
-      setLoading(false)
-    }, 1000)
-  } , [])
-
-  return (
-    <div className="text-left">
-      <h1 className="text-3xl font-bold mb-6">Browse Editors</h1>
-      {loading ? (
-        <p className="text-white/40">Loading...</p>
-      ) : editors.length === 0 ? (
-        <p className="text-white/40">No editors yet.</p>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {editors.map(e => (
-            <Card key={e.id} className="bg-white/5 border-white/10">
-              <CardContent className="p-5">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center text-lg font-bold mb-3">
-                  {e.name?.[0]?.toUpperCase()}
-                </div>
-                <div className="font-semibold text-lg text-white">{e.name}</div>
-                <div className="text-sm text-purple-400 mt-0.5">{e.level} Rank Editor</div>
-                <div className="text-xs text-white/40 mt-2">Rating: {e.rating} ★</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
+  const [editors,
