@@ -409,10 +409,31 @@ function BrowseEditors() {
       ])
       setLoading(false)
     }, 1000)
-  }, [])
+  } , [])
 
   return (
     <div className="text-left">
       <h1 className="text-3xl font-bold mb-6">Browse Editors</h1>
-      {loading ? <p className="text-white/40">Loading...</p> : (
-        editors.length
+      {loading ? (
+        <p className="text-white/40">Loading...</p>
+      ) : editors.length === 0 ? (
+        <p className="text-white/40">No editors yet.</p>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {editors.map(e => (
+            <Card key={e.id} className="bg-white/5 border-white/10">
+              <CardContent className="p-5">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center text-lg font-bold mb-3">
+                  {e.name?.[0]?.toUpperCase()}
+                </div>
+                <div className="font-semibold text-lg text-white">{e.name}</div>
+                <div className="text-sm text-purple-400 mt-0.5">{e.level} Rank Editor</div>
+                <div className="text-xs text-white/40 mt-2">Rating: {e.rating} ★</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
